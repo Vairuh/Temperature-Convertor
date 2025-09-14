@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        .converter-card {
+            background-color: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        .input-group label {
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-field:focus {
+            border-color: #3182ce;
+        }
+        .convert-button {
+            width: 100%;
+            background-color: #3b82f6;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+        .convert-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        .result-box {
+            background-color: #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a202c;
+            min-height: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        .error-message {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="converter-card">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Temperature Converter</h1>
+        <p class="text-sm text-gray-500 mb-6">Convert between Celsius, Fahrenheit, and Kelvin.</p>
+
+        <div class="input-group">
+            <label for="inputTemp">Degrees</label>
+            <input type="number" id="inputTemp" class="input-field" placeholder="Enter temperature here">
+        </div>
+        
+        <div class="input-group">
+            <label for="selectUnit">Type</label>
+            <div class="relative w-full">
+                <select id="selectUnit" class="input-field appearance-none cursor-pointer pr-10">
+                    <option value="celsius">Celsius</option>
+                    <option value="fahrenheit">Fahrenheit</option>
+                    <option value="kelvin">Kelvin</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l-.707.707L13.5 18.5l.707-.707L9.293 12.95zM4 9h12v2H4V9z"/></svg>
+                </div>
+            </div>
+        </div>
+        
+        <button id="convertBtn" class="convert-button">Convert</button>
+        
+        <div class="result-box mt-8">
+            <span id="result"></span>
+        </div>
+        
+    </div>
+
+    <script>
+        document.getElementById('convertBtn').addEventListener('click', function() {
+            const inputTemp = document.getElementById('inputTemp');
+            const selectUnit = document.getElementById('selectUnit');
+            const resultDisplay = document.getElementById('result');
+            
+            const temp = parseFloat(inputTemp.value);
+            const unit = selectUnit.value;
+            let convertedTemp;
+            let convertedUnit;
+
+            if (isNaN(temp)) {
+                resultDisplay.textContent = 'Please enter a valid number';
+                return;
+            }
+
+            if (unit === 'celsius') {
+                convertedTemp = (temp * 9/5) + 32;
+                convertedUnit = '°F';
+            } else if (unit === 'fahrenheit') {
+                convertedTemp = (temp - 32) * 5/9;
+                convertedUnit = '°C';
+            } else if (unit === 'kelvin') {
+                convertedTemp = temp - 273.15;
+                convertedUnit = '°C';
+            }
+
+            resultDisplay.textContent = `${convertedTemp.toFixed(2)} ${convertedUnit}`;
+        });
+    </script>
+</body>
+</html>
